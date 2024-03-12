@@ -1,7 +1,8 @@
-package com.corhuila.egresadoscorhuila.service;
+package com.corhuila.egresadoscorhuila.service.impl;
 
 import com.corhuila.egresadoscorhuila.entity.Users;
 import com.corhuila.egresadoscorhuila.repository.UserRepository;
+import com.corhuila.egresadoscorhuila.service.UsersService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
