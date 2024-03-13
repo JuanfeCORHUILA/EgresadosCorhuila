@@ -1,12 +1,14 @@
 package com.corhuila.egresadoscorhuila.service;
 
 import com.corhuila.egresadoscorhuila.entity.Users;
+import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
+import org.apache.coyote.Response;
 
 import java.util.List;
 
 public interface UsersService {
 
-    List<Users> findAll();
+    ResponseGeneric findAll();
 
     Users findById(Long userId);
 

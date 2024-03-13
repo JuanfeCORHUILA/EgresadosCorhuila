@@ -1,9 +1,12 @@
 package com.corhuila.egresadoscorhuila.controller;
 
 import com.corhuila.egresadoscorhuila.entity.Users;
+import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.UsersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +21,8 @@ public class UsersController {
     private final UsersService usersService;
 
     @GetMapping(path = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Users> findAll() {
-        return usersService.findAll();
+    public ResponseEntity<ResponseGeneric> findAll() {
+        return new ResponseEntity<>(usersService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/recuperarUsuario", produces = MediaType.APPLICATION_JSON_VALUE)

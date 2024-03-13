@@ -22,8 +22,7 @@ public class Users {
     @Id
     @Field(name = "noIdentificacion")
     @NotNull
-    @Max(10)
-    private BigInteger noIdentificacion;
+    private Long noIdentificacion;
 
     @Field(name = "tipoDocumento")
     @NotNull
@@ -46,7 +45,6 @@ public class Users {
 
     @Field(name = "telefono")
     @NotNull
-    @Max(10)
     private BigInteger telefono;
 
     @Field(name = "email")
@@ -65,7 +63,6 @@ public class Users {
 
     @Field(name = "edad")
     @NotNull
-    @Max(2)
     private String edad;
 
     @Field(name = "fechaNacimiento")
@@ -76,10 +73,6 @@ public class Users {
     @Field(name = "programa")
     @NotNull
     private String programa;
-
-    @Field(name = "anoGraduacion")
-    @NotNull
-    private String anoGraduacion;
 
     @Field(name = "fotoPerfil")
     @NotNull
@@ -113,9 +106,9 @@ public class Users {
     @NotNull
     private String facultad;
 
-    @Field(name = "ultimoSemestres")
+    @Field(name = "ultimoSemestre")
     @NotNull
-    private Long ultimoSemestres;
+    private Long ultimoSemestre;
 
     @Field(name = "graduado")
     @NotNull

@@ -2,12 +2,14 @@ package com.corhuila.egresadoscorhuila.service.impl;
 
 import com.corhuila.egresadoscorhuila.entity.Users;
 import com.corhuila.egresadoscorhuila.repository.UserRepository;
+import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.UsersService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,8 +20,27 @@ public class UsersServiceImpl implements UsersService {
     private UserRepository userRepository;
 
     @Override
-    public List<Users> findAll() {
-        return userRepository.findAll();
+    public ResponseGeneric findAll() {
+
+        try {
+            List<Users> users = userRepository.findAll();
+            if (users.isEmpty() || users==null){
+                return ResponseGeneric.builder()
+                        .codResponse(204)
+                        .message("Listado de usuarios consultado exitosamente, sin ningun contenido")
+                        .status("NOT CONTENT")
+                        .build();
+            }
+            return ResponseGeneric.builder()
+                    .codResponse(200)
+                    .message("Listado de usuarios consultado exitosamente")
+                    .status("OK")
+                    .listObject(Collections.singletonList(users))
+                    .build();
+        }catch (Exception e){
+            return ResponseGeneric.builder().codResponse(400).message(e.getMessage()).status("BAD REQUEST").build();
+        }
+
     }
 
     @Override
