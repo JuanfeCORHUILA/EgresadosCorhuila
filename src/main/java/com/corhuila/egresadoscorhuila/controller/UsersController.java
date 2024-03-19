@@ -40,9 +40,6 @@ public class UsersController {
         usersService.deleteUser(userId);
     }
 
-    @PostMapping(path = "/ingresar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean login(@RequestBody String request) {
-        return usersService.login(request);
-    }
+
 
 }

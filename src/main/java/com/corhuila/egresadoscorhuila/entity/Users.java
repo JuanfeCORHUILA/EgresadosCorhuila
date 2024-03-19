@@ -1,7 +1,10 @@
 package com.corhuila.egresadoscorhuila.entity;
 
+import com.corhuila.egresadoscorhuila.enums.RolEnum;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.annotation.Collation;
@@ -9,10 +12,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 @Collation("users")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
 
 
@@ -23,6 +29,11 @@ public class Users {
     @Field(name = "noIdentificacion")
     @NotNull
     private Long noIdentificacion;
+
+    @Field(name = "emailInstitucional")
+    @NotNull
+    @Email
+    private String emailInstitucional;
 
     @Field(name = "tipoDocumento")
     @NotNull
@@ -52,11 +63,6 @@ public class Users {
     @Email
     private String email;
 
-    @Field(name = "emailInstitucional")
-    @NotNull
-    @Email
-    private String emailInstitucional;
-
     @Field(name = "genero")
     @NotNull
     private String genero;
@@ -77,14 +83,6 @@ public class Users {
     @Field(name = "fotoPerfil")
     @NotNull
     private Byte[] fotoPerfil;
-
-    @Field(name = "password")
-    @NotNull
-    private String password;
-
-    @Field(name = "rol")
-    @NotNull
-    private String rol;
 
     @Field(name = "ciudadRecidencia")
     @NotNull
@@ -165,4 +163,5 @@ public class Users {
     @Field(name = "relacionFormacion")
     @NotNull
     private String relacionFormacion;
+
 }

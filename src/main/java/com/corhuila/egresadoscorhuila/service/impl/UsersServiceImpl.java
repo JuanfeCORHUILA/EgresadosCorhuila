@@ -1,6 +1,11 @@
 package com.corhuila.egresadoscorhuila.service.impl;
 
+import com.corhuila.egresadoscorhuila.dto.CreateUserDto;
+import com.corhuila.egresadoscorhuila.entity.CreateUsers;
 import com.corhuila.egresadoscorhuila.entity.Users;
+import com.corhuila.egresadoscorhuila.enums.RolEnum;
+import com.corhuila.egresadoscorhuila.exceptions.AttributeException;
+import com.corhuila.egresadoscorhuila.repository.CreateUserRepository;
 import com.corhuila.egresadoscorhuila.repository.UserRepository;
 import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.UsersService;
@@ -8,9 +13,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.naming.directory.AttributeInUseException;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -18,6 +25,8 @@ import java.util.List;
 public class UsersServiceImpl implements UsersService {
 
     private UserRepository userRepository;
+
+    private CreateUserRepository createUserRepository;
 
     @Override
     public ResponseGeneric findAll() {
@@ -59,16 +68,21 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Boolean login(String request) {
-        log.info("request " + request);
-        String[] data = request.split("\\|");
-        log.info("data: " + data[0] + " - " + data[1]);
-        BigInteger noIdentificacion = new BigInteger(data[0]);
-        String password = data[1];
-        Users user = userRepository.findByNoIdentificacionAndPassword(noIdentificacion, password);
-        if (user.getRol() == "admin"){
-            return Boolean.TRUE;
+    public CreateUsers create(CreateUserDto createUserDto) throws AttributeException {
+
+        if (createUserRepository.existsByNoIdentificacion(createUserDto.getNoIdentificacion())){
+            throw new AttributeException("El usuario ya existe");
         }
-        return Boolean.TRUE;
+
+        if (createUserRepository.existsByEmailInstitucional(createUserDto.getEmailInstitucional())){
+            throw new AttributeException("El usuario ya existe");
+        }
+
+        List<RolEnum> roles =
+                createUserDto.getRol().stream().map(rol -> RolEnum.valueOf(rol)).collect(Collectors.toList());
+
+        CreateUsers users = new CreateUsers(createUserDto.getNoIdentificacion(), createUserDto.getEmailInstitucional(), createUserDto.getPassword(), roles);
+
+        return createUserRepository.save(users);
     }
 }
