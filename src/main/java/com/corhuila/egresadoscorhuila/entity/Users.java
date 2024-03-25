@@ -1,31 +1,33 @@
 package com.corhuila.egresadoscorhuila.entity;
 
 import com.corhuila.egresadoscorhuila.enums.RolEnum;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.annotation.Collation;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-@Collation("users")
+@Document(collection = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+public class Users extends EntityId{
 
 
 //    @NotNull
 //    private Long id;
 
-    @Id
+
     @Field(name = "noIdentificacion")
     @NotNull
     private Long noIdentificacion;

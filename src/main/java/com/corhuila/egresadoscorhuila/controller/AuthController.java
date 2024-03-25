@@ -1,10 +1,12 @@
 package com.corhuila.egresadoscorhuila.controller;
 
 import com.corhuila.egresadoscorhuila.dto.CreateUserDto;
+import com.corhuila.egresadoscorhuila.dto.JwtTokenDto;
+import com.corhuila.egresadoscorhuila.dto.LoginUserDto;
 import com.corhuila.egresadoscorhuila.entity.CreateUsers;
 import com.corhuila.egresadoscorhuila.exceptions.AttributeException;
 import com.corhuila.egresadoscorhuila.service.UsersService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,5 +26,10 @@ public class AuthController {
     @PostMapping("/create")
     public ResponseEntity<CreateUsers> create(@Valid @RequestBody CreateUserDto createUserDto) throws AttributeException {
        return new ResponseEntity<>(usersService.create(createUserDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtTokenDto> login(@Valid @RequestBody LoginUserDto loginUserDto) {
+        return new ResponseEntity<>(usersService.login(loginUserDto), HttpStatus.OK);
     }
 }

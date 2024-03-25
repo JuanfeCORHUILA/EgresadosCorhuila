@@ -1,26 +1,25 @@
 package com.corhuila.egresadoscorhuila.entity;
 
 import com.corhuila.egresadoscorhuila.enums.RolEnum;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.annotation.Collation;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Collation("createUsers")
+@Document(collection = "createUsers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUsers {
+public class CreateUsers extends EntityId{
 
-    @Id
     @Field(name = "noIdentificacion")
     @NotNull
     private Long noIdentificacion;
@@ -37,4 +36,13 @@ public class CreateUsers {
     @Field(name = "rol")
     @NotNull
     private List<RolEnum> rol;
+
+
+    public CreateUsers(int id, Long noIdentificacion, String emailInstitucional, String password, List<RolEnum> roles) {
+        this.id = id;
+        this.noIdentificacion = noIdentificacion;
+        this.emailInstitucional = emailInstitucional;
+        this.password = password;
+        this.rol = roles;
+    }
 }
