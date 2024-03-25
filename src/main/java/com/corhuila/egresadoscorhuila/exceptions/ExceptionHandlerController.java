@@ -1,9 +1,13 @@
 package com.corhuila.egresadoscorhuila.exceptions;
 
 
+import com.corhuila.egresadoscorhuila.dto.MessageDto;
+import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +36,18 @@ public class ExceptionHandlerController {
             errors.add("El atributo " + error.getField() + " " + error.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<MessageDto> badCredentialsException(BadCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new MessageDto(HttpStatus.NOT_FOUND, "Credenciales invalidas"));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<MessageDto> accessDeniedException(AccessDeniedException accessDeniedException) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new MessageDto(HttpStatus.FORBIDDEN, "No puede acceder a este recurso"));
     }
 
 }

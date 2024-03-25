@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class totalEgresadosController {
     @Autowired
     private TotalUserService totalUserService;
 
+    @PreAuthorize("hasAuthority('ROL_ADMIN')")
     @GetMapping(path = "/totalEgresadosSede", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseGeneric> totalEgresadosSede(@RequestParam(name = "sede") String sede){
         return new ResponseEntity<>(totalUserService.totalEgresados(sede), HttpStatus.OK);

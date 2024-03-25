@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Optional<CreateUsers> users = createUserRepository.findByNoIdentificacionOrEmailInstitucional(Long.valueOf(username),username);
         if (!users.isPresent())
-            return null;
+            throw new UsernameNotFoundException("El usuario no existe");
         return UserPrincipal.build(users.get());
     }
 }
