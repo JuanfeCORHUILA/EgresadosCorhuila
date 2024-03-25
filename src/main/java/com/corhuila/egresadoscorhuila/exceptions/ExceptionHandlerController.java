@@ -1,4 +1,4 @@
-package com.corhuila.egresadoscorhuila.controller;
+package com.corhuila.egresadoscorhuila.exceptions;
 
 
 import lombok.extern.slf4j.Slf4j;
