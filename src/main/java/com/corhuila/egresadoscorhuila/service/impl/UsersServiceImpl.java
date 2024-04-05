@@ -13,6 +13,7 @@ import com.corhuila.egresadoscorhuila.repository.UserRepository;
 import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.UsersService;
 import com.corhuila.egresadoscorhuila.utils.Operations;
+import com.corhuila.egresadoscorhuila.utils.SendEmail;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,6 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public JwtTokenDto login(LoginUserDto loginUserDto) {
-
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDto.getNoIdentificacion().toString(), loginUserDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
