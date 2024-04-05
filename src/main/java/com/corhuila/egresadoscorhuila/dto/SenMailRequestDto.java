@@ -22,4 +22,10 @@ public class SenMailRequestDto {
 
     @NotNull
     public List<String> emails;
+
+    @NotNull
+    public String file;
+
+    @NotNull
+    public String nameFile;
 }
