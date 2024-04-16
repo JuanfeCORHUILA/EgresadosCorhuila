@@ -23,11 +23,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Users extends EntityId{
 
-
-//    @NotNull
-//    private Long id;
-
-
     @Field(name = "noIdentificacion")
     @NotNull
     private Long noIdentificacion;
