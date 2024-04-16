@@ -135,35 +135,27 @@ public class Users extends EntityId{
     private Boolean labora;
 
     @Field(name = "nombreEmpresa")
-    @NotNull
     private String nombreEmpresa;
 
     @Field(name = "rolEjecuta")
-    @NotNull
     private String rolEjecuta;
 
     @Field(name = "fechaIngreso")
-    @NotNull
     private Date fechaIngreso;
 
     @Field(name = "actividadEjecuta")
-    @NotNull
     private String actividadEjecuta;
 
     @Field(name = "rangoSalarial")
-    @NotNull
     private String rangoSalarial;
 
     @Field(name = "tipoContrato")
-    @NotNull
     private String tipoContrato;
 
     @Field(name = "modalidadTrabajo")
-    @NotNull
     private String modalidadTrabajo;
 
     @Field(name = "relacionFormacion")
-    @NotNull
     private String relacionFormacion;
 
 }
