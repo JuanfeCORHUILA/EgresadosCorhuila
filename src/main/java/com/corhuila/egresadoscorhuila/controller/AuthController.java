@@ -17,7 +17,7 @@ import javax.naming.directory.AttributeInUseException;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class AuthController {
 
     @Autowired

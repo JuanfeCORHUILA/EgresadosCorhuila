@@ -28,6 +28,6 @@ public class CreateUserDto {
     @NotNull
     private String password;
 
-    @NotEmpty
+    //@NotEmpty
     private List<String> rol;
 }
