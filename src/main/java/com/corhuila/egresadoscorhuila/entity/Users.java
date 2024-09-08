@@ -61,7 +61,6 @@ public class Users extends EntityId{
     private String email;
 
     @Field(name = "genero")
-    @NotNull
     private String genero;
 
     @Field(name = "edad")
@@ -74,11 +73,9 @@ public class Users extends EntityId{
     private Date fechaNacimiento;
 
     @Field(name = "programa")
-    @NotNull
     private String programa;
 
     @Field(name = "fotoPerfil")
-    @NotNull
     private Byte[] fotoPerfil;
 
     @Field(name = "ciudadRecidencia")
@@ -90,43 +87,36 @@ public class Users extends EntityId{
     private String direccionRecidencia;
 
     @Field(name = "sedeUniversitaria")
-    @NotNull
     private String sedeUniversitaria;
 
     @Field(name = "ultimoNivelFormacion")
-    @NotNull
     private String ultimoNivelFormacion;
 
     @Field(name = "facultad")
-    @NotNull
     private String facultad;
 
     @Field(name = "ultimoSemestre")
-    @NotNull
     private Long ultimoSemestre;
 
     @Field(name = "graduado")
-    @NotNull
     private Boolean graduado;
 
     @Field(name = "fechaGrado")
-    @NotNull
     private Date fechaGrado;
 
     @Field(name = "modalidad")
-    @NotNull
     private String modalidad;
 
     @Field(name = "calificacionObtenida")
-    @NotNull
     private String calificacionObtenida;
 
     @Field(name = "tituloTrabajoGrado")
-    @NotNull
     private String tituloTrabajoGrado;
 
+    @Field(name = "tituloObtenido")
+    private String tituloObtenido;
+
     @Field(name = "labora")
-    @NotNull
     private Boolean labora;
 
     @Field(name = "nombreEmpresa")

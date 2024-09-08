@@ -33,6 +33,18 @@ public class UsersController {
         return usersService.findById(userId);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROL_ADMIN', 'ROL_EGRESADO')")
+    @PostMapping(path = "/recuperarUsuarioDoc", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Users findByDoc(@RequestParam(name = "doc") Long doc) {
+        return usersService.findByDoc(doc);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROL_ADMIN', 'ROL_EGRESADO')")
+    @PostMapping(path = "/actualizarUsuario", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Users updateUser(@RequestParam(name = "doc") Long doc, @RequestBody @Validated Users users) {
+        return usersService.updateUser(users,doc);
+    }
+
     @PreAuthorize("hasAuthority('ROL_EGRESADO')")
     @PostMapping(path = "/crearUsuario", produces = MediaType.APPLICATION_JSON_VALUE)
     public Users createUser(@RequestBody @Validated Users request) {

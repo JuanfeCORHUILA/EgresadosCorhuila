@@ -19,7 +19,11 @@ public interface UsersService {
 
     Users findById(Long userId);
 
+    Users findByDoc(Long document);
+
     Users createUser(Users request);
+
+    Users updateUser(Users users, Long doc);
 
     void deleteUser(Long userId);
 

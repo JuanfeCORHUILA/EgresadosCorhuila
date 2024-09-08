@@ -4,13 +4,17 @@ import com.corhuila.egresadoscorhuila.dto.CreateUserDto;
 import com.corhuila.egresadoscorhuila.dto.JwtTokenDto;
 import com.corhuila.egresadoscorhuila.dto.LoginUserDto;
 import com.corhuila.egresadoscorhuila.entity.CreateUsers;
+import com.corhuila.egresadoscorhuila.entity.Users;
 import com.corhuila.egresadoscorhuila.exceptions.AttributeException;
 import com.corhuila.egresadoscorhuila.service.UsersService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.directory.AttributeInUseException;
@@ -32,4 +36,10 @@ public class AuthController {
     public ResponseEntity<JwtTokenDto> login(@Valid @RequestBody LoginUserDto loginUserDto) {
         return new ResponseEntity<>(usersService.login(loginUserDto), HttpStatus.OK);
     }
+
+    @PostMapping(path = "/preRegistro", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Users createUser(@RequestBody @Validated Users request) {
+        return usersService.createUser(request);
+    }
+
 }

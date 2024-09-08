@@ -25,7 +25,7 @@ public class NewsController {
 
     ModelMapper modelMapper;
 
-    @PreAuthorize("hasAuthority('ROL_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROL_ADMIN', 'ROL_EGRESADO')")
     @GetMapping(path = "/listNews", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseGeneric> listNews(){
         return new ResponseEntity<>(newsService.findAll(), HttpStatus.OK);
@@ -45,7 +45,7 @@ public class NewsController {
     }
 
     @PreAuthorize("hasAuthority('ROL_ADMIN')")
-    @DeleteMapping(path = "/updateNews", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/deleteNews", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseGeneric> deleteNews(@PathVariable("id") Long id){
         return new ResponseEntity<>(newsService.delete(id), HttpStatus.OK);
     }

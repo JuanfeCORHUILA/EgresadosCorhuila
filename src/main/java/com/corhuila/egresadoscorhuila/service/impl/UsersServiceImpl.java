@@ -16,6 +16,7 @@ import com.corhuila.egresadoscorhuila.utils.Operations;
 import com.corhuila.egresadoscorhuila.utils.SendEmail;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +48,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public ResponseGeneric findAll() {
@@ -77,10 +82,32 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Users findByDoc(Long document) {
+        try {
+            return  userRepository.findByNoIdentificacion(document);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+
+    }
+
+    @Override
     public Users createUser(Users request) {
         int id = Operations.autoIncrement(userRepository.findAll());
         request.setId(id);
         return userRepository.save(request);
+    }
+
+    @Override
+    public Users updateUser(Users updateUser, Long doc) {
+        Users existUser = userRepository.findByNoIdentificacion(doc);
+        if (existUser != null){
+            modelMapper.map(updateUser, existUser);
+            return userRepository.save(existUser);
+        }else {
+            throw new RuntimeException("Usuario no encontrado con el Dcoumento: "+ doc);
+        }
     }
 
     @Override

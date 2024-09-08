@@ -5,14 +5,18 @@ import com.corhuila.egresadoscorhuila.entity.News;
 import com.corhuila.egresadoscorhuila.repository.NewsRepository;
 import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.NewsService;
+import com.corhuila.egresadoscorhuila.utils.Operations;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NewsServiceImpl implements NewsService {
@@ -20,6 +24,7 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     NewsRepository newsRepository;
 
+    @Autowired
     ModelMapper modelMapper;
 
     @Override
@@ -34,17 +39,15 @@ public class NewsServiceImpl implements NewsService {
                         .build();
             }
 
-            for (News notice : news){
-                if (notice.getExpirationDate().after(new Date())){
-                    news.add(notice);
-                }
-            }
+            List<News> newsShow = news.stream()
+                    .filter(notice -> notice.getExpirationDate().after(new Date()))
+                    .collect(Collectors.toList());
 
             return ResponseGeneric.builder()
                     .status("Ok")
                     .message("Noticias listadas exitosamente")
                     .codResponse(200)
-                    .listObject(Collections.singletonList(news))
+                    .listObject(Collections.singletonList(newsShow))
                     .build();
 
         }catch (Exception e){
@@ -61,6 +64,7 @@ public class NewsServiceImpl implements NewsService {
 
         try {
             var news = modelMapper.map(newsDto, News.class);
+            news.setId(Operations.autoIncrement(newsRepository.findAll()));
              newsRepository.save(news);
             return ResponseGeneric.builder()
                     .status("Ok")

@@ -12,4 +12,6 @@ public interface UserRepository extends MongoRepository<Users, Long> {
 
     List<Users> findBySedeUniversitaria(String sede);
 
+    Users findByNoIdentificacion(Long document);
+
 }
