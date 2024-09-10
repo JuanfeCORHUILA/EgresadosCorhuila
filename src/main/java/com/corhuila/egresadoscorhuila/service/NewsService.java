@@ -6,11 +6,15 @@ import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 
 public interface NewsService {
 
-    ResponseGeneric findAll();
+    ResponseGeneric findAllCurrent();
+
+    ResponseGeneric finAll();
 
     ResponseGeneric save(NewsDto newsDto);
 
     ResponseGeneric update(Long id, News news);
+
+    ResponseGeneric updateStatus(Long id, Boolean status);
 
     ResponseGeneric delete(Long id);
 }
