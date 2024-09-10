@@ -37,8 +37,16 @@ public class NewsServiceImpl implements NewsService {
             }
 
             List<News> newsShow = news.stream()
-                    .filter(notice -> notice.getExpirationDate().after(new Date()))
+                    .filter(notice -> notice.getExpirationDate().after(new Date()) && notice.getStatus())
                     .collect(Collectors.toList());
+
+            if (newsShow.isEmpty()) {
+                return ResponseGeneric.builder()
+                        .status("Not Content")
+                        .message("No hay noticias disponibles")
+                        .codResponse(204)
+                        .build();
+            }
 
             return ResponseGeneric.builder()
                     .status("Ok")
@@ -110,20 +118,17 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public ResponseGeneric update(Long id, News news) {
         try {
-            // Buscar la noticia por ID
             Optional<News> existingNews = newsRepository.findById(id);
 
             if (existingNews.isPresent()) {
                 News newsToUpdate = existingNews.get();
 
-                // Actualizamos los campos necesarios, puedes ajustar según lo que necesites actualizar
                 newsToUpdate.setTitle(news.getTitle());
                 newsToUpdate.setContent(news.getContent());
                 newsToUpdate.setFile(news.getFile());
                 newsToUpdate.setStatus(news.getStatus());
                 newsToUpdate.setExpirationDate(news.getExpirationDate());
 
-                // Guardar la noticia actualizada
                 newsRepository.save(newsToUpdate);
 
                 return ResponseGeneric.builder()
@@ -133,7 +138,6 @@ public class NewsServiceImpl implements NewsService {
                         .object(newsToUpdate)
                         .build();
             } else {
-                // Retornamos un error si la noticia no se encuentra
                 return ResponseGeneric.builder()
                         .status("Not Found")
                         .message("Noticia con ID " + id + " no encontrada")
@@ -141,7 +145,6 @@ public class NewsServiceImpl implements NewsService {
                         .build();
             }
         } catch (Exception e) {
-            // Manejo de excepciones
             return ResponseGeneric.builder()
                     .status("Bad Request")
                     .message("Error al actualizar la noticia: " + e.getMessage())
