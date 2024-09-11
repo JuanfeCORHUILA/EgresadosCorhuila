@@ -5,4 +5,8 @@ import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 public interface TotalUserService {
 
     ResponseGeneric totalEgresados (String sede);
+
+    ResponseGeneric totalEgresadosAños();
+
+    ResponseGeneric ultimosUsuarios();
 }

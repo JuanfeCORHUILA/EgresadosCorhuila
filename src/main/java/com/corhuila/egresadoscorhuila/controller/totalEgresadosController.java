@@ -22,4 +22,16 @@ public class totalEgresadosController {
     public ResponseEntity<ResponseGeneric> totalEgresadosSede(@RequestParam(name = "sede") String sede){
         return new ResponseEntity<>(totalUserService.totalEgresados(sede), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('ROL_ADMIN')")
+    @GetMapping(path = "/totalEgresadosAño", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseGeneric> totalEgresadosAño(){
+        return new ResponseEntity<>(totalUserService.totalEgresadosAños(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROL_ADMIN')")
+    @GetMapping(path = "/ultimosEgresados", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseGeneric> ultimosEgresados(){
+        return new ResponseEntity<>(totalUserService.ultimosUsuarios(), HttpStatus.OK);
+    }
 }
