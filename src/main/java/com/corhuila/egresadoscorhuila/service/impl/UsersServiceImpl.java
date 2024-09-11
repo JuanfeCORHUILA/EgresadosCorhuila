@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,14 +83,26 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Users findByDoc(Long document) {
+    public Users findByDoc(Long document, Boolean foto) {
         try {
-            return  userRepository.findByNoIdentificacion(document);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return null;
+            Users user;
 
+            if (!foto) {
+                user = userRepository.findByNoIdentificacionWithoutFotoPerfil(document);
+            } else {
+                user = userRepository.findByNoIdentificacion(document);
+            }
+
+            if (user == null) {
+                throw new NoSuchElementException("Usuario no encontrado con el documento: " + document);
+            }
+
+            return user;
+
+        } catch (Exception e) {
+            System.out.println("Error al buscar usuario: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -102,11 +115,50 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Users updateUser(Users updateUser, Long doc) {
         Users existUser = userRepository.findByNoIdentificacion(doc);
-        if (existUser != null){
-            modelMapper.map(updateUser, existUser);
+
+        if (existUser != null) {
+            // Actualizamos todos los campos de forma manual sin usar modelMapper
+            existUser.setNoIdentificacion(updateUser.getNoIdentificacion());
+            existUser.setEmailInstitucional(updateUser.getEmailInstitucional());
+            existUser.setTipoDocumento(updateUser.getTipoDocumento());
+            existUser.setPrimerNombre(updateUser.getPrimerNombre());
+            existUser.setSegundoNombre(updateUser.getSegundoNombre());
+            existUser.setPrimerApellido(updateUser.getPrimerApellido());
+            existUser.setSegundoApellido(updateUser.getSegundoApellido());
+            existUser.setTelefono(updateUser.getTelefono());
+            existUser.setEmail(updateUser.getEmail());
+            existUser.setEdad(updateUser.getEdad());
+            existUser.setFechaNacimiento(updateUser.getFechaNacimiento());
+            existUser.setPrograma(updateUser.getPrograma());
+            existUser.setCiudadRecidencia(updateUser.getCiudadRecidencia());
+            existUser.setDireccionRecidencia(updateUser.getDireccionRecidencia());
+            existUser.setSedeUniversitaria(updateUser.getSedeUniversitaria());
+            existUser.setUltimoNivelFormacion(updateUser.getUltimoNivelFormacion());
+            existUser.setFacultad(updateUser.getFacultad());
+            existUser.setUltimoSemestre(updateUser.getUltimoSemestre());
+            existUser.setGraduado(updateUser.getGraduado());
+            existUser.setFechaGrado(updateUser.getFechaGrado());
+            existUser.setModalidad(updateUser.getModalidad());
+            existUser.setCalificacionObtenida(updateUser.getCalificacionObtenida());
+            existUser.setTituloTrabajoGrado(updateUser.getTituloTrabajoGrado());
+            existUser.setTituloObtenido(updateUser.getTituloObtenido());
+            existUser.setNombreEmpresa(updateUser.getNombreEmpresa());
+            existUser.setRolEjecuta(updateUser.getRolEjecuta());
+            existUser.setFechaIngreso(updateUser.getFechaIngreso());
+            existUser.setActividadEjecuta(updateUser.getActividadEjecuta());
+            existUser.setRangoSalarial(updateUser.getRangoSalarial());
+            existUser.setTipoContrato(updateUser.getTipoContrato());
+            existUser.setModalidadTrabajo(updateUser.getModalidadTrabajo());
+            existUser.setRelacionFormacion(updateUser.getRelacionFormacion());
+
+            // Validación manual para la fotoPerfil
+            if (updateUser.getFotoPerfil() != null) {
+                existUser.setFotoPerfil(updateUser.getFotoPerfil());
+            } // Si no viene fotoPerfil, no se modifica el valor actual en existUser
+
             return userRepository.save(existUser);
-        }else {
-            throw new RuntimeException("Usuario no encontrado con el Dcoumento: "+ doc);
+        } else {
+            throw new RuntimeException("Usuario no encontrado con el documento: " + doc);
         }
     }
 

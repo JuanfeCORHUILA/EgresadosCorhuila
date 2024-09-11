@@ -19,7 +19,7 @@ public interface UsersService {
 
     Users findById(Long userId);
 
-    Users findByDoc(Long document);
+    Users findByDoc(Long document, Boolean foto);
 
     Users createUser(Users request);
 

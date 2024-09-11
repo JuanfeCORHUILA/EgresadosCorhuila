@@ -20,4 +20,7 @@ public interface UserRepository extends MongoRepository<Users, Long> {
     @Query(fields = "{ 'primerNombre': 1, 'segundoNombre': 1, 'primerApellido': 1, 'segundoApellido': 1 }", sort = "{ 'id': -1 }")
     List<Users> findTop5ByOrderByIdDesc();
 
+    @Query(value = "{ 'noIdentificacion': ?0 }", fields = "{ 'fotoPerfil': 0 }")
+    Users findByNoIdentificacionWithoutFotoPerfil(Long noIdentificacion);
+
 }

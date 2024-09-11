@@ -35,8 +35,8 @@ public class UsersController {
 
     @PreAuthorize("hasAnyAuthority('ROL_ADMIN', 'ROL_EGRESADO')")
     @PostMapping(path = "/recuperarUsuarioDoc", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Users findByDoc(@RequestParam(name = "doc") Long doc) {
-        return usersService.findByDoc(doc);
+    public Users findByDoc(@RequestParam(name = "doc") Long doc, @RequestParam(name = "foto") Boolean foto) {
+        return usersService.findByDoc(doc, foto);
     }
 
     @PreAuthorize("hasAnyAuthority('ROL_ADMIN', 'ROL_EGRESADO')")
