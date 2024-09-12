@@ -118,7 +118,6 @@ public class UsersServiceImpl implements UsersService {
         Users existUser = userRepository.findByNoIdentificacion(doc);
 
         if (existUser != null) {
-            // Actualizamos todos los campos de forma manual sin usar modelMapper
             existUser.setNoIdentificacion(updateUser.getNoIdentificacion());
             existUser.setEmailInstitucional(updateUser.getEmailInstitucional());
             existUser.setTipoDocumento(updateUser.getTipoDocumento());
@@ -153,10 +152,9 @@ public class UsersServiceImpl implements UsersService {
             existUser.setModalidadTrabajo(updateUser.getModalidadTrabajo());
             existUser.setRelacionFormacion(updateUser.getRelacionFormacion());
 
-            // Validación manual para la fotoPerfil
             if (updateUser.getFotoPerfil() != null) {
                 existUser.setFotoPerfil(updateUser.getFotoPerfil());
-            } // Si no viene fotoPerfil, no se modifica el valor actual en existUser
+            }
 
             return userRepository.save(existUser);
         } else {
@@ -206,7 +204,20 @@ public class UsersServiceImpl implements UsersService {
         CreateUsers createUsers = createUserRepository.findByNoIdentificacion(updatePassword.getNoIdentificacion());
         createUsers.setEmailInstitucional(updatePassword.getEmail());
         createUsers.setPassword(passwordEncoder.encode(updatePassword.getPassword()));
+        createUserRepository.save(createUsers);
+        createUsers.setPassword(null);
+        return createUsers;
+    }
 
-        return createUserRepository.save(createUsers);
+    @Override
+    public CreateUsers findByNumeroDoc(Long numDoc) {
+
+        try {
+            CreateUsers createUsers = createUserRepository.findByNoIdentificacion(numDoc);
+            createUsers.setPassword(null);
+            return createUsers;
+        }catch (Exception e){
+            throw new RuntimeException("Usuario no encontrado con el documento: " + numDoc);
+        }
     }
 }

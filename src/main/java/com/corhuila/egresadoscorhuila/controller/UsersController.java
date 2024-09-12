@@ -64,4 +64,10 @@ public class UsersController {
     public CreateUsers updatePassword(@RequestBody @Validated UpdatePassword updatePassword) {
         return usersService.updatePassword(updatePassword);
     }
+
+    @PreAuthorize("hasAnyAuthority('ROL_ADMIN')")
+    @GetMapping(path = "/listarAdminDoc", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CreateUsers findbynumDoc(@RequestParam(name = "doc") Long doc) {
+        return usersService.findByNumeroDoc(doc);
+    }
 }

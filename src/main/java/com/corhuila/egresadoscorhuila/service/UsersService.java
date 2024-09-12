@@ -34,4 +34,6 @@ public interface UsersService {
 
     CreateUsers updatePassword(UpdatePassword updatePassword);
 
+    CreateUsers findByNumeroDoc(Long numDoc);
+
 }
