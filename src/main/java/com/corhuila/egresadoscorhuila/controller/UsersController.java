@@ -1,5 +1,7 @@
 package com.corhuila.egresadoscorhuila.controller;
 
+import com.corhuila.egresadoscorhuila.dto.UpdatePassword;
+import com.corhuila.egresadoscorhuila.entity.CreateUsers;
 import com.corhuila.egresadoscorhuila.entity.Users;
 import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.UsersService;
@@ -57,6 +59,9 @@ public class UsersController {
         usersService.deleteUser(userId);
     }
 
-
-
+    @PreAuthorize("hasAnyAuthority('ROL_ADMIN', 'ROL_EGRESADO')")
+    @PutMapping(path = "/actualizarContraseña", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CreateUsers updatePassword(@RequestBody @Validated UpdatePassword updatePassword) {
+        return usersService.updatePassword(updatePassword);
+    }
 }

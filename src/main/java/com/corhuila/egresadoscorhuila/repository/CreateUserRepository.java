@@ -14,4 +14,6 @@ public interface CreateUserRepository extends MongoRepository<CreateUsers, Long>
     boolean existsByEmailInstitucional(String emailInstitucional);
 
     Optional<CreateUsers> findByNoIdentificacionOrEmailInstitucional(Long noIdentificacion, String emailInstitucional);
+
+    CreateUsers findByNoIdentificacion(Long noIdentificacion);
 }

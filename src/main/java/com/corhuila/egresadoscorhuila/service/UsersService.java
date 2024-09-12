@@ -3,6 +3,7 @@ package com.corhuila.egresadoscorhuila.service;
 import com.corhuila.egresadoscorhuila.dto.CreateUserDto;
 import com.corhuila.egresadoscorhuila.dto.JwtTokenDto;
 import com.corhuila.egresadoscorhuila.dto.LoginUserDto;
+import com.corhuila.egresadoscorhuila.dto.UpdatePassword;
 import com.corhuila.egresadoscorhuila.entity.CreateUsers;
 import com.corhuila.egresadoscorhuila.entity.Users;
 import com.corhuila.egresadoscorhuila.exceptions.AttributeException;
@@ -30,5 +31,7 @@ public interface UsersService {
     CreateUsers create(CreateUserDto createUserDto) throws AttributeException;
 
     JwtTokenDto login (LoginUserDto loginUserDto);
+
+    CreateUsers updatePassword(UpdatePassword updatePassword);
 
 }

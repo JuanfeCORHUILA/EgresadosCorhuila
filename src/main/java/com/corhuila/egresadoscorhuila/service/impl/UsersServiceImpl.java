@@ -3,6 +3,7 @@ package com.corhuila.egresadoscorhuila.service.impl;
 import com.corhuila.egresadoscorhuila.dto.CreateUserDto;
 import com.corhuila.egresadoscorhuila.dto.JwtTokenDto;
 import com.corhuila.egresadoscorhuila.dto.LoginUserDto;
+import com.corhuila.egresadoscorhuila.dto.UpdatePassword;
 import com.corhuila.egresadoscorhuila.entity.CreateUsers;
 import com.corhuila.egresadoscorhuila.entity.Users;
 import com.corhuila.egresadoscorhuila.enums.RolEnum;
@@ -142,6 +143,7 @@ public class UsersServiceImpl implements UsersService {
             existUser.setCalificacionObtenida(updateUser.getCalificacionObtenida());
             existUser.setTituloTrabajoGrado(updateUser.getTituloTrabajoGrado());
             existUser.setTituloObtenido(updateUser.getTituloObtenido());
+            existUser.setLabora(updateUser.getLabora());
             existUser.setNombreEmpresa(updateUser.getNombreEmpresa());
             existUser.setRolEjecuta(updateUser.getRolEjecuta());
             existUser.setFechaIngreso(updateUser.getFechaIngreso());
@@ -197,5 +199,14 @@ public class UsersServiceImpl implements UsersService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.generateToken(authentication);
         return new JwtTokenDto(token);
+    }
+
+    @Override
+    public CreateUsers updatePassword(UpdatePassword updatePassword) {
+        CreateUsers createUsers = createUserRepository.findByNoIdentificacion(updatePassword.getNoIdentificacion());
+        createUsers.setEmailInstitucional(updatePassword.getEmail());
+        createUsers.setPassword(passwordEncoder.encode(updatePassword.getPassword()));
+
+        return createUserRepository.save(createUsers);
     }
 }
