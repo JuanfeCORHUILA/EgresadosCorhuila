@@ -42,4 +42,9 @@ public class AuthController {
         return usersService.createUser(request);
     }
 
+    @PostMapping(path = "/olvidoContraseña", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void olvidoContraseña(@RequestParam(name = "doc") Long doc) {
+         usersService.olvidoContraseña(doc);
+    }
+
 }

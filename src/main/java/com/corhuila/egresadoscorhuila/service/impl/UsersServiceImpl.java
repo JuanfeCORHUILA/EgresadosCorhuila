@@ -14,6 +14,7 @@ import com.corhuila.egresadoscorhuila.repository.UserRepository;
 import com.corhuila.egresadoscorhuila.response.ResponseGeneric;
 import com.corhuila.egresadoscorhuila.service.UsersService;
 import com.corhuila.egresadoscorhuila.utils.Operations;
+import com.corhuila.egresadoscorhuila.utils.PasswordUtils;
 import com.corhuila.egresadoscorhuila.utils.SendEmail;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    SendEmail sendEmail;
 
     @Override
     public ResponseGeneric findAll() {
@@ -218,6 +222,23 @@ public class UsersServiceImpl implements UsersService {
             return createUsers;
         }catch (Exception e){
             throw new RuntimeException("Usuario no encontrado con el documento: " + numDoc);
+        }
+    }
+
+    @Override
+    public void olvidoContraseña(Long numDoc) {
+        try {
+            CreateUsers createUsers = createUserRepository.findByNoIdentificacion(numDoc);
+            if (createUsers == null) {
+                throw new RuntimeException("No Se Encontro al usuario con documento: " + numDoc);
+            }
+
+            String nuevaContraseña = PasswordUtils.generateRandomPassword();
+            createUsers.setPassword(passwordEncoder.encode(nuevaContraseña));
+            createUserRepository.save(createUsers);
+            sendEmail.senSimpleMail( createUsers.getEmailInstitucional(),"Nueva Contraseña","Su nueva contraseña es " + nuevaContraseña);
+        }catch (Exception e){
+            throw new RuntimeException("Error: " + numDoc);
         }
     }
 }

@@ -42,4 +42,13 @@ public class SendEmail {
         helper.addAttachment(nameFile,fileMail);
         mailSender.send(message);
     }
+
+    public void senSimpleMail(String to, String subject, String text){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
+    }
 }

@@ -36,4 +36,6 @@ public interface UsersService {
 
     CreateUsers findByNumeroDoc(Long numDoc);
 
+    void olvidoContraseña(Long numDoc);
+
 }
