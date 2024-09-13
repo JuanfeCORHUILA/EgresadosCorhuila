@@ -23,4 +23,6 @@ public interface UserRepository extends MongoRepository<Users, Long> {
     @Query(value = "{ 'noIdentificacion': ?0 }", fields = "{ 'fotoPerfil': 0 }")
     Users findByNoIdentificacionWithoutFotoPerfil(Long noIdentificacion);
 
+    List<Users> findById(List<Long> ids);
+
 }

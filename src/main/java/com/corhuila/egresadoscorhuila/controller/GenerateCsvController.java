@@ -8,10 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/egresados")
@@ -23,9 +22,9 @@ public class GenerateCsvController {
     GenerateCsvService generateCsvService;
 
     @PreAuthorize("hasAuthority('ROL_ADMIN')")
-    @GetMapping(path = "/export")
-    public ResponseEntity<byte[]> exportCsv() {
-       String csvString = generateCsvService.generateCsv();
+    @PostMapping(path = "/export")
+    public ResponseEntity<byte[]> exportCsv(@RequestBody(required = false) List<Long> ids) {
+       String csvString = generateCsvService.generateCsv(ids);
        byte[] buf = csvString.getBytes();
 
         HttpHeaders headers = new HttpHeaders();
