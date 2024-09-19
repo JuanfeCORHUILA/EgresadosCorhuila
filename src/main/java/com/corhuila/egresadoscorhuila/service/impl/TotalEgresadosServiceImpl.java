@@ -80,9 +80,7 @@ public class TotalEgresadosServiceImpl implements TotalUserService {
 
             List<Object> nombresApellidos = usuarios.stream()
                     .map(usuario -> usuario.getPrimerNombre() + " " +
-                            (usuario.getSegundoNombre() != null ? usuario.getSegundoNombre() + " " : "") +
-                            usuario.getPrimerApellido() + " " +
-                            (usuario.getSegundoApellido() != null ? usuario.getSegundoApellido() : ""))
+                            usuario.getPrimerApellido())
                     .collect(Collectors.toList());
 
             return ResponseGeneric.builder()
